@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/Auth";
+import { useAuth } from "../context/AuthContext";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Redirect from "../components/redirect";

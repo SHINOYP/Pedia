@@ -15,9 +15,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../../context/Auth";
+import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/cartContext";
 import toast from "react-hot-toast";
-
+import SearchInput from "../Form/SearchInput";
+import { Badge, Batch } from "antd";
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
 
@@ -25,6 +27,7 @@ function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -82,6 +85,9 @@ function DrawerAppBar(props) {
             Pedia
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+            <ListItem>
+              <SearchInput />
+            </ListItem>
             <ListItem>
               <NavLink to="/" className="nav-link ">
                 Home
@@ -142,9 +148,11 @@ function DrawerAppBar(props) {
               </>
             )}
             <ListItem className="nav-item">
-              <NavLink to="/cart" className="nav-link">
-                Cart (0)
-              </NavLink>
+              <Badge count={cart?.length} showZero>
+                <NavLink to="/cart" className="nav-link">
+                  Cart
+                </NavLink>
+              </Badge>
             </ListItem>
           </Box>
         </Toolbar>

@@ -264,6 +264,31 @@ const searchProductController = async (req, res) => {
   }
 };
 
+//realted product controller
+const relatedProductController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({
+        category: cid,
+        slug: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      message: "error while geting related product",
+      error,
+    });
+  }
+};
+
 module.exports = {
   createProductController,
   getProductController,
@@ -275,4 +300,5 @@ module.exports = {
   productCountController,
   productListController,
   searchProductController,
+  relatedProductController,
 };

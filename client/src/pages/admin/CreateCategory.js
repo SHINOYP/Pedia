@@ -3,7 +3,7 @@ import Layout from "./../../components/layout/Layout";
 import AdminMenu from "./../../components/layout/AdminMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/Auth";
+import { useAuth } from "../../context/AuthContext";
 import CategoryForm from "../../components/Form/CategoryForm";
 import { Modal } from "antd";
 

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
-import { useAuth } from "../context/Auth";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { Checkbox, Radio } from "antd";
 import { prices } from "../components/Prices";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cartContext";
+import { toast } from "react-hot-toast";
 
 function Homepage() {
   const [auth, setAuth] = useAuth();
@@ -14,7 +17,8 @@ function Homepage() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const [cart, setCart] = useCart();
+  const navigate = useNavigate();
   //get total count
   const getTotal = async () => {
     try {
@@ -153,8 +157,25 @@ function Homepage() {
                   <h5 className="card-title">{p.name}</h5>
                   <p className="card-text">{p.description.substring(0, 30)}</p>
                   <p className="card-text">${p.price}</p>
-                  <button className="btn btn-primary ms-1">more Details</button>
-                  <button className="btn btn-primary ms-1">Add to cart</button>
+                  <button
+                    className="btn btn-primary ms-1"
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                  >
+                    more Details
+                  </button>
+                  <button
+                    className="btn btn-primary ms-1"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success("Item added successfully");
+                    }}
+                  >
+                    Add to cart
+                  </button>
                 </div>
               </div>
             ))}
