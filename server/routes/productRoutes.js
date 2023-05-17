@@ -12,6 +12,8 @@ const {
   productListController,
   searchProductController,
   relatedProductController,
+  braintreeTokenController,
+  braintreePaymentController,
 } = require("../controllers/productControllers");
 const formidable = require("express-formidable");
 
@@ -61,5 +63,12 @@ router.get("/search/:keyword", searchProductController);
 
 //similar products
 router.get("/related-product/:pid/:cid", relatedProductController);
+
+//payment routes
+//token
+router.get("/braintree/token", braintreeTokenController);
+
+//payments
+router.post("/braintree/payment", requireAuth, braintreePaymentController);
 
 module.exports = router;

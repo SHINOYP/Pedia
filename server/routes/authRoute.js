@@ -1,5 +1,10 @@
 const express = require("express");
-const { signUp, logIn, test } = require("../controllers/authControllers");
+const {
+  signUp,
+  logIn,
+  test,
+  getOrdersController,
+} = require("../controllers/authControllers");
 const { requireAuth, adminAuth } = require("../middleware/requireAuth");
 
 //router  object
@@ -24,5 +29,8 @@ router.get("/user-auth", requireAuth, (req, res) => {
 router.get("/admin-auth", requireAuth, adminAuth, (req, res) => {
   res.status(200).send({ ok: true });
 });
+
+//orders
+router.get("/orders", requireAuth, getOrdersController);
 
 module.exports = router;

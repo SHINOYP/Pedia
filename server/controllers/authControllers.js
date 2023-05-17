@@ -2,7 +2,7 @@ const express = require("express");
 const userModel = require("../models/userModel");
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const jwt = require("jsonwebtoken");
-
+const orderModel = require("../models/orderModel");
 const signUp = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
@@ -104,4 +104,22 @@ const logIn = async (req, res) => {
 const test = (req, res) => {
   res.send("proteced route");
 };
-module.exports = { signUp, logIn, test };
+
+const getOrdersController = async (req, res) => {
+  try {
+    const order = await orderModel
+      .find({ buyer: req.user._id })
+      .populate("products", "-photo")
+      .populate("buyer", "name");
+    res.json(order);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Getting Orders",
+      error,
+    });
+  }
+};
+
+module.exports = { signUp, logIn, test, getOrdersController };
