@@ -23,6 +23,7 @@ const requireAuth = async (req, res, next) => {
 const adminAuth = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
+
     if (user.roll === 0) {
       return res.status(401).send({
         success: false,

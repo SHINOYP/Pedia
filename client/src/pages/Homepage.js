@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+import axios from "../config/axiosConfig";
 import { Checkbox, Radio } from "antd";
 import { prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +22,7 @@ function Homepage() {
   //get total count
   const getTotal = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/product/product-count"
-      );
+      const { data } = await axios.get("/product/product-count");
       setTotal(data?.total);
     } catch (error) {
       console.log(error);
@@ -37,9 +35,7 @@ function Homepage() {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:8000/api/v1/product/product-list/${page}`
-      );
+      const { data } = await axios.get(`/product/product-list/${page}`);
       setLoading(false);
       setProducts([...products, ...data.products]);
     } catch (error) {
@@ -55,9 +51,7 @@ function Homepage() {
   //get all categorews
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/category/get-category"
-      );
+      const { data } = await axios.get("/category/get-category");
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -69,9 +63,7 @@ function Homepage() {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:8000/api/v1/product/product-list/${page}`
-      );
+      const { data } = await axios.get(`/product/product-list/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -100,10 +92,10 @@ function Homepage() {
   //get filtered product
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/product/product-filters",
-        { checked, radio }
-      );
+      const { data } = await axios.post("/product/product-filters", {
+        checked,
+        radio,
+      });
       setProducts(data?.products);
     } catch (error) {
       console.log(error);

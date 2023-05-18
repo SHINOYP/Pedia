@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "./../../components/layout/Layout";
-import axios from "axios";
+import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
@@ -17,16 +17,13 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/auth/register",
-        {
-          name,
-          email,
-          password,
-          phone,
-          address,
-        }
-      );
+      const res = await axios.post("/auth/register", {
+        name,
+        email,
+        password,
+        phone,
+        address,
+      });
       if (res && res.data.success) {
         console.log(res);
         toast.success(res.data && res.data.message);

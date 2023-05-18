@@ -4,6 +4,8 @@ const {
   logIn,
   test,
   getOrdersController,
+  getAllOrdersController,
+  orderStatusController,
 } = require("../controllers/authControllers");
 const { requireAuth, adminAuth } = require("../middleware/requireAuth");
 
@@ -30,7 +32,18 @@ router.get("/admin-auth", requireAuth, adminAuth, (req, res) => {
   res.status(200).send({ ok: true });
 });
 
-//orders
+//orders user
 router.get("/orders", requireAuth, getOrdersController);
+
+//All orders admin
+router.get("/all-orders", requireAuth, adminAuth, getAllOrdersController);
+
+// orders admin status update
+router.put(
+  "/order-status/:orderId",
+  requireAuth,
+  adminAuth,
+  orderStatusController
+);
 
 module.exports = router;

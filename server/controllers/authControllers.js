@@ -105,6 +105,7 @@ const test = (req, res) => {
   res.send("proteced route");
 };
 
+//user orders
 const getOrdersController = async (req, res) => {
   try {
     const order = await orderModel
@@ -122,4 +123,51 @@ const getOrdersController = async (req, res) => {
   }
 };
 
-module.exports = { signUp, logIn, test, getOrdersController };
+//admin show all orders
+const getAllOrdersController = async (req, res) => {
+  try {
+    const order = await orderModel
+      .find({})
+      .populate("products", "-photo")
+      .populate("buyer", "name")
+      .sort({ createdAt: "-1" });
+    res.json(order);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Getting Orders",
+      error,
+    });
+  }
+};
+
+//order status
+const orderStatusController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    const order = await orderModel.findByIdAndUpdate(
+      orderId,
+      { status: status },
+      { new: true }
+    );
+    res.json(order);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while Updatind Order",
+      error,
+    });
+  }
+};
+
+module.exports = {
+  signUp,
+  logIn,
+  test,
+  getOrdersController,
+  getAllOrdersController,
+  orderStatusController,
+};

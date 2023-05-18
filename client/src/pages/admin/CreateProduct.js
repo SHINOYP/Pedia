@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/layout/Layout";
 import AdminMenu from "./../../components/layout/AdminMenu";
-import axios from "axios";
+import axios from "../../config/axiosConfig";
 import { Select } from "antd";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -25,9 +25,7 @@ const CreateProduct = () => {
   //get all catergoreis
   const getAllCategory = async (e) => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/category/get-category"
-      );
+      const { data } = await axios.get("/category/get-category");
       if (data?.success) {
         setCategorires(data?.category);
       } else {
@@ -51,10 +49,7 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
 
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/product/create-product",
-        productData
-      );
+      const { data } = await axios.post("/product/create-product", productData);
       if (data?.success) {
         toast.success("product created Successfully");
         navigate("/dashboard/admin/products");

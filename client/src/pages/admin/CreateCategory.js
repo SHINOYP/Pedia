@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./../../components/layout/Layout";
 import AdminMenu from "./../../components/layout/AdminMenu";
-import axios from "axios";
+import axios from "../../config/axiosConfig";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import CategoryForm from "../../components/Form/CategoryForm";
@@ -22,10 +22,7 @@ const CreateCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/category/create-category",
-        { name }
-      );
+      const { data } = await axios.post("/category/create-category", { name });
       if (data?.success) {
         toast.success(`${name} is created`);
         getAllCategory();
@@ -40,9 +37,7 @@ const CreateCategory = () => {
   };
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/category/get-category"
-      );
+      const { data } = await axios.get("/category/get-category");
       if (data?.success) {
         setCategorires(data?.category);
       }
@@ -56,7 +51,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/api/v1/category/update-catergory/${selected._id}`,
+        `/category/update-catergory/${selected._id}`,
         { name: updatedName }
       );
       console.log("hoora");
@@ -78,9 +73,7 @@ const CreateCategory = () => {
   //delete category
   const handleDelete = async (pId) => {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:8000/api/v1/category/delete-category/${pId}`
-      );
+      const { data } = await axios.delete(`/category/delete-category/${pId}`);
       if (data.success) {
         toast.success(`category is deleted`);
 

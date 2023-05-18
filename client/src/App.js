@@ -1,4 +1,3 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Homepage";
 import About from "./pages/About";
@@ -21,6 +20,7 @@ import UpdateProduct from "./pages/admin/UpdateProduct";
 import Search from "./pages/search";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import AdminOrder from "./pages/admin/AdminOrder";
 
 function App() {
   return (
@@ -42,6 +42,7 @@ function App() {
           <Route path="admin/product/:id" element={<UpdateProduct />} />
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/users" element={<Users />} />
+          <Route path="admin/orders" element={<AdminOrder />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
